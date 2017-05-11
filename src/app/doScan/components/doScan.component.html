@@ -1,0 +1,33 @@
+﻿<main>
+    <div class="mother">
+        <div class="leftColumn">
+            <h2>
+                {{displayText}}
+            </h2>
+            <br />
+            <br />
+            <button *ngIf="showResultsButton==false" (click)="stopScan()">Stop Scan</button><br /><br />
+            <button *ngIf="showResultsButton" (click)="nextStep()">Show Results</button><br /><br />
+            <table>
+                <tr *ngFor="let item of getFiles()">
+                    <td *ngIf="item?.scanned == false && item?.scanning == false" > {{ item?.fileName }}</td>
+                    <td *ngIf="item?.scanned"> {{ item?.fileName + " - scanned, number of incidents: " + item?.getIncidentCount()}}</td>  
+                    <td *ngIf="item?.scanning"> {{ item?.fileName + " - scanning, number of incidents: " + item?.getIncidentCount() }}</td>  
+                                  
+                </tr>
+            </table>
+            <canvas hidden #canvas1></canvas>
+            <canvas hidden #canvas2></canvas>
+            <canvas hidden #canvas3></canvas>
+            <canvas hidden #canvasTime></canvas><br/>
+            <img #imgImageCurrent /><br/>
+            <img #imgImageCurrentMinusOne/><br/>
+            <img #imgCurrentMinusTwo />
+        </div>
+        <div class="rightColumn">
+            <div style.top="{{videoDisplayTop}}px" style.left="{{videoDisplayLeft}}px" class="videoDiv">
+                <video #videoNode (loadedmetadata)="videoLoaded()" style.width.px={{videoDisplayWidth}} style.height.px={{videoDisplayHeight}} preload="auto"></video>
+            </div>
+        </div>
+    </div>
+</main>

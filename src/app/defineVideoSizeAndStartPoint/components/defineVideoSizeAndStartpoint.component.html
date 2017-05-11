@@ -1,0 +1,29 @@
+﻿<main>
+    <div class="mother">
+        <div class="leftColumn">
+            <h2>
+               {{getText()}} <br /><br />
+            </h2>
+            <input style="width:400px" #inputSlideVideoSize type="range" min="100" max="1100" (change)="changeSlide(inputSlideVideoSize.value)" />
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <div><button (click)="nextStep()">Next</button></div><br />
+            <div *ngIf="laterVideoExists()"><button (click)="useNextVideo()">Start at next video</button></div>
+            <br/>
+            <br/>
+          </div>
+        <div style ="width: 100px">
+        </div>
+        <div class="rightColumn">
+            <div style.top="{{videoDisplayTop}}px" style.left="{{videoDisplayLeft}}px" class="videoDiv">    
+                <video #videoNode (loadedmetadata)="videoLoaded()" style.width.px={{videoDisplayWidth}} style.height.px={{videoDisplayHeight+75}} controls preload="auto"></video>
+            </div>
+            
+        </div>
+    </div>
+    <div style.position="fixed">
+        <canvas #canvasNode width="{{videoDisplayWidth}}" height="{{videoDisplayHeight}}"></canvas>
+    </div>
+</main>

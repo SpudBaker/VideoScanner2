@@ -1,0 +1,41 @@
+﻿<div>
+    <form [formGroup]="complexForm" (ngSubmit)="submitSettingsForm(complexForm.value)">
+        <div>
+            <label for="minIntervalBetweenIncidents">Min Interval between Incidents (secs)</label>
+            <input type="text" size="3" maxlength="3"
+                   required pattern="^([1-9][0-9]{0,2}|1000)$"
+                   [formControl]="complexForm.controls['minIntervalBetweenIncidents']" id="minIntervalBetweenIncidents"
+                   [(ngModel)]="minIntervalBetweenIncidents"
+                   /> 
+        </div>
+        <div class="formError" *ngIf="!complexForm.controls['minIntervalBetweenIncidents'].valid">Must be a valid number</div>
+        <br/>
+
+        <div>
+            <label for="scanIterationTimer">Wait time between scan iterations (milliseconds)</label>
+            <input type="text" size="3" maxlength="3"
+                   required pattern="^([1-9][0-9][0-9])$"
+                   [formControl]="complexForm.controls['scanIterationTimer']" id="scanIterationTimer"
+                   [(ngModel)]="scanIterationTimer" />
+        </div>
+        <div class="formError" *ngIf="!complexForm.controls['scanIterationTimer'].valid">Must be a valid number greater than 100</div>
+        <br />
+
+        <div>
+            <label for="showCompareImages">Display Comparison Images on the Scan Page?</label><br />
+            False <input type="radio" name="showCompareImages" [formControl]="complexForm.controls['showCompareImages']"
+                   id="showCompareImages"
+                   [(ngModel)]="showCompareImages" 
+                   [value]="false"/>
+
+            True <input type="radio" name="showCompareImages" [formControl]="complexForm.controls['showCompareImages']"
+                   id="showCompareImages"
+                   [(ngModel)]="showCompareImages"
+                   [value]="true" />
+        </div>
+        <br/>
+
+
+        <div><button type="submit" [disabled]="!complexForm.valid">Submit</button></div>
+    </form>
+</div>

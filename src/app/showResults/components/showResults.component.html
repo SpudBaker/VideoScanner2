@@ -1,0 +1,33 @@
+﻿    <main>
+        <div class="mother">
+            <div class="leftColumn">
+                <h2>
+                    {{displayText}} <br/>
+                    {{displayText2}}
+                    <br/><br/>
+                </h2>
+                <br />
+                <table>
+                    <tr *ngFor="let vid of allVideos">
+                        <td>
+                        <table>
+                            <tr>
+                                <td (click)="showVideoAndPlay(vid?.fileName,0)">{{vid?.fileName}}</td>
+                                <td *ngIf="vid?.fileName == currentlyPlayingVideoName">:  -  Playing</td>
+                            </tr>
+                            <tr *ngFor="let inc of vid?.incidents">
+                                <td (click)="showVideoAndPause(vid?.fileName,inc?.time)" ><img src="{{inc?.imageTime}}" /></td>
+                                <td><img width="22" src="assets/img/play.png" (click)="showVideoAndPlay(vid?.fileName,inc?.time)"/></td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+            <div class="rightColumn">
+                <div style.top="{{videoDisplayTop}}px" style.left="{{videoDisplayLeft}}px" class="videoDiv">
+                    <video #videoNode (ended)="videoEnded()" (loadedmetadata)="videoLoaded()"   style.width.px={{videoDisplayWidth}} style.height.px={{videoDisplayHeight+75}} preload="auto" controls></video>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </main>

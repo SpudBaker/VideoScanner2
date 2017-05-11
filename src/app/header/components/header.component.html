@@ -1,0 +1,16 @@
+﻿<main>
+    <div class="mother">
+        <div class="leftColumn">
+            <h1>{{title}}</h1>
+        </div>
+        <div class="rightColumn" align="right">
+                <table>
+                    <tr>
+                        <td>{{sesVideoScannerService.getLogInStatusText()}}</td>
+                        <td *ngIf="getBrowserCompatability()" width="100" valign="top"><img width="80" src="assets/img/home.jpg" (click)="clickHome()" /></td>
+                        <td *ngIf="getBrowserCompatability()" valign="top"><img width="69" src="assets/img/cog.png" (click)="clickSettings()" /></td>
+                    </tr>
+                </table>
+        </div>
+    </div>
+</main>

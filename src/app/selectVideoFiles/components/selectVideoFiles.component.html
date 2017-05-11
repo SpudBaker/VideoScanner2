@@ -1,0 +1,33 @@
+﻿<main>
+    <div class="mother">
+        <div class="leftColumn">
+            <h2>
+                {{getDisplayText()}} <br /><br />
+                <input #fileInput  id="fileInputLocal" type="file" (change)="onFileInputChange()" multiple accept="video/*" style="visibility:hidden" />
+            </h2>
+            <div *ngIf="getBrowserCompatability()">
+                <div *ngIf="getButtonState('login')">
+                    <input #inputPassword type="password" maxlength="8" size="12" class="formInput" (keypress)="checkForLogInEnter($event.keyCode)" /><br /><br />
+                    <button (click)="logIn()">Log In</button><br />
+                    <div class="userErrorWarning"> {{errorDisplayText}} </div>
+                </div>
+                <div *ngIf="getButtonState('browseforfiles')"><button onClick="document.getElementById('fileInputLocal').click()">Browse for files</button></div>
+                <div *ngIf="getButtonState('continue')"><button (click)="nextStep()">Continue</button><br /><br /></div>
+                <div *ngIf="getButtonState('cancel')"><button onclick="location.reload()">Cancel</button><br /><br /><br /><br /></div>
+                <div *ngIf="filesLoaded()">
+                    <table>
+                        <tr *ngFor="let item of hack(getFiles())">
+                            <td><strong>{{ item?.name }}</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="rightColumn">
+            <div hidden>
+                <video #videoNode (loadedmetadata)="videoLoaded()"></video>
+            </div>
+        </div>
+    </div>
+
+</main>

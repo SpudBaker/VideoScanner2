@@ -1,0 +1,31 @@
+﻿<main>
+    <div class="mother">
+        <div class="leftColumn">
+            <h2>
+                {{getText()}} <br /><br />
+            </h2>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <div><button (click)="nextStep()">Next</button></div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <div><input [(ngModel)]="sesVideoScannerService.scanIncrement" style="width:90px" #inputSlideScanIncrement type="range" min="1" max="3" step="1" (change)="changeSlide(inputSlideScanIncrement.value)" /></div>
+            <br />
+            {{getScanIncrementText()}}
+        </div>
+        <div style="width: 100px">
+        </div>
+        <div class="rightColumn">
+            <div draggable="true" (dragstart)="dragStart($event)" (dragend)="dragEnd($event)" style.width="{{scanAreaDisplayWidth}}px" style.height="{{scanAreaDisplayHeight}}px" style.top="{{scanAreaDisplayTop}}px" style.left="{{scanAreaDisplayLeft}}px" class="scanArea"></div>
+            <div draggable="true" (dragstart)="resizeDragStart($event)" (dragend)="resizeDragEnd($event)" style="width: 30px; height: 30px" style.top="{{resizeHandleTop}}px" style.left="{{resizeHandleLeft}}px" class="resizeArea"></div>
+            <div style.top="{{videoDisplayTop}}px" style.left="{{videoDisplayLeft}}px" class="videoDiv">
+                <img #imgElement src="{{getImage()}}">
+            </div>
+        </div>
+    </div>
+</main>
