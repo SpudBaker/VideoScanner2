@@ -13,7 +13,7 @@ import {SESIncident} from '../../model/SESIncident';
 export class DoScanComponent implements AfterViewChecked {
 
     displayText: string;
-    showResultsButton: boolean = false;
+    showResultsButton = false;
     showCompareImages: boolean;
     videoDisplayWidth: number;
     videoDisplayHeight: number;
@@ -36,7 +36,7 @@ export class DoScanComponent implements AfterViewChecked {
     private _doingIteration: boolean;
     private _captureIteration: number;
     private _lastIterationMovementDetected: number;
-    private _sesVideoLoaded: boolean = false;
+    private _sesVideoLoaded = false;
     private _selectedVideo: SESVideo;
     private _canvasArray: any[];
     private _ctxArray: any[];
@@ -228,8 +228,8 @@ export class DoScanComponent implements AfterViewChecked {
         return matches;
     }
     compareImage = function (imageIndex: number, imageIndex2: number) {
-        let noMovementCount: number = 0;
-        let movementCount: number = 0;
+        let noMovementCount = 0;
+        let movementCount = 0;
 
         for (let y = 0; y < this.sesVideoScannerService.getScanAreaActualHeight(); y = y + 5) {
             for (let x = 0; x < this.sesVideoScannerService.getScanAreaActualWidth(); x = x + 5) {
@@ -251,7 +251,7 @@ export class DoScanComponent implements AfterViewChecked {
         console.log('percentageArea: ' + this.sesVideoScannerService.getPercentageArea());
         console.log('imageIndex: ' + imageIndex);
         console.log('imageIndex2: ' + imageIndex2);
-        if (100*(movementCount / (noMovementCount + movementCount)) < this.sesVideoScannerService.getPercentageArea()){
+        if (100 * (movementCount / (noMovementCount + movementCount)) < this.sesVideoScannerService.getPercentageArea()) {
             this._movementDetectedThisIteration = false;
         }
         console.log('_movementDetectedThisIteration: ' + this._movementDetectedThisIteration);
