@@ -14,22 +14,26 @@ export class SettingsFormComponent {
     scanIterationTimer: number;
     showCompareImages: boolean;
     playSpeedFactor: number;
+    percentageArea: number;
 
     constructor(private sesVideoScanningService: SESVideoScannerService, fb: FormBuilder, private router: Router) {
         this.complexForm = fb.group({
             'minIntervalBetweenIncidents': '',
             'scanIterationTimer': '',
-            'showCompareImages': ''
+            'showCompareImages': '',
+            'percentageArea': ''
         });
         this.minIntervalBetweenIncidents = this.sesVideoScanningService.minIntervalBetweenIncidents;
         this.showCompareImages = this.sesVideoScanningService.showCompareImages;
         this.scanIterationTimer = this.sesVideoScanningService.scanIterationTimer;
+        this.percentageArea = this.sesVideoScanningService.percentageArea;
     }
 
     submitSettingsForm(value: any): void {
         this.sesVideoScanningService.setMinIntervalBetweenIncidents(value.minIntervalBetweenIncidents);
         this.sesVideoScanningService.setShowCompareImages(value.showCompareImages);
         this.sesVideoScanningService.setScanIterationTimer(value.scanIterationTimer);
+        this.sesVideoScanningService.setPercentageArea(value.percentageArea);
 
         this.router.navigate(['/']);
         window.location.reload();

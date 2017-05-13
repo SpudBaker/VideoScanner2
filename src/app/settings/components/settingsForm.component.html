@@ -22,6 +22,16 @@
         <br />
 
         <div>
+            <label for="percentageArea">Percentage of the scanArea affected to trigger an alert</label>
+            <input type="text" size="3" maxlength="3"
+                   required pattern="^((100)|(\d{0,2}))$"
+                   [formControl]="complexForm.controls['percentageArea']" id="percentageArea"
+                   [(ngModel)]="percentageArea" />
+        </div>
+        <div class="formError" *ngIf="!complexForm.controls['percentageArea'].valid">Must be a valid percentage</div>
+        <br />
+
+        <div>
             <label for="showCompareImages">Display Comparison Images on the Scan Page?</label><br />
             False <input type="radio" name="showCompareImages" [formControl]="complexForm.controls['showCompareImages']"
                    id="showCompareImages"
