@@ -44,7 +44,7 @@ export class SESVideoScannerService {
         }
 
         if (localStorage.getItem('percentageArea') === null) {
-            this.percentageArea = 1;
+            this.percentageArea = 2;
         } else {
             this.percentageArea = parseInt(localStorage.getItem('percentageArea'), 10);
         }

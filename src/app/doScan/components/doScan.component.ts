@@ -228,10 +228,9 @@ export class DoScanComponent implements AfterViewChecked {
         return matches;
     }
     compareImage = function (imageIndex: number, imageIndex2: number) {
-        let compareTopLeftArray = new Array();
-        let compareBottomRightArray = new Array();
-        compareTopLeftArray = [Infinity, Infinity];
-        compareBottomRightArray = [0, 0];
+        let noMovementCount: number = 0;
+        let movementCount: number = 0;
+
         for (let y = 0; y < this.sesVideoScannerService.getScanAreaActualHeight(); y = y + 5) {
             for (let x = 0; x < this.sesVideoScannerService.getScanAreaActualWidth(); x = x + 5) {
                 let pixel1 = this._ctxArray[imageIndex].getImageData(x, y, 1, 1);
@@ -241,14 +240,21 @@ export class DoScanComponent implements AfterViewChecked {
                 let pixel2Data = pixel2.data;
 
                 if (this.comparePixel(pixel1Data, pixel2Data) === false) {
-                    this.setCompareTopLeft(compareTopLeftArray, x, y);
-                    this.setCompareBottomRight(compareBottomRightArray, x, y);
+                    movementCount++;
+                } else {
+                    noMovementCount++;
                 }
             }
         }
-        if (isFinite(compareTopLeftArray[0]) === false) {
+        console.log('movementCount: ' + movementCount);
+        console.log('noMovementCount: ' + noMovementCount);
+        console.log('percentageArea: ' + this.sesVideoScannerService.getPercentageArea());
+        console.log('imageIndex: ' + imageIndex);
+        console.log('imageIndex2: ' + imageIndex2);
+        if (100*(movementCount / (noMovementCount + movementCount)) < this.sesVideoScannerService.getPercentageArea()){
             this._movementDetectedThisIteration = false;
         }
+        console.log('_movementDetectedThisIteration: ' + this._movementDetectedThisIteration);
     };
 
     setCompareTopLeft(iArray: any[], x: number, y: number) {
