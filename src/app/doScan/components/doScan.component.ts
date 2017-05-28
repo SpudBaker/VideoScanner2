@@ -72,7 +72,6 @@ export class DoScanComponent implements AfterViewChecked {
     }
 
     getFiles() {
-        console.log('count of videos: ' + this.sesVideoScannerService.sesVideos.length);
         return this.sesVideoScannerService.sesVideos;
     }
 
@@ -145,9 +144,10 @@ export class DoScanComponent implements AfterViewChecked {
     }
 
     doScanIteration() {
-        if (this._doingIteration === true || this.videoNode.nativeElement.seeking === true) { return; }
+
+        if (this._doingIteration === true) { return; }
         this._doingIteration = true;
-        this._movementDetectedThisIteration = true;  // any compare image function call can set this to false
+        this._movementDetectedThisIteration = true;
         if (this._captureIteration > 1) {
             this.cloneImage(2);
         }
