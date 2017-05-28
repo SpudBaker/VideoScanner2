@@ -246,15 +246,9 @@ export class DoScanComponent implements AfterViewChecked {
                 }
             }
         }
-        console.log('movementCount: ' + movementCount);
-        console.log('noMovementCount: ' + noMovementCount);
-        console.log('percentageArea: ' + this.sesVideoScannerService.getPercentageArea());
-        console.log('imageIndex: ' + imageIndex);
-        console.log('imageIndex2: ' + imageIndex2);
         if (100 * (movementCount / (noMovementCount + movementCount)) < this.sesVideoScannerService.getPercentageArea()) {
             this._movementDetectedThisIteration = false;
         }
-        console.log('_movementDetectedThisIteration: ' + this._movementDetectedThisIteration);
     };
 
     setCompareTopLeft(iArray: any[], x: number, y: number) {

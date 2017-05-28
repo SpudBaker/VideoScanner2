@@ -137,7 +137,6 @@ export class SelectVideoFilesComponent {
     }
 
     handleHttpError(error: Response | any) {
-        console.log(error);
         this.errorDisplayText = 'Error attempting to access the login Service - please try again later';
     }
 

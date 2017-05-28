@@ -19,7 +19,6 @@ export class AppComponent {
             sesVideoScannerService.browserCompatable = true;
         } else {
             sesVideoScannerService.browserCompatable = false;
-            console.log(false!!!!!);
         }
 
     }
