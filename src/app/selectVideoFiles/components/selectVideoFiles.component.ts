@@ -35,7 +35,7 @@ export class SelectVideoFilesComponent {
             return 'This application is designed for the Chrome Browser only. Please change browser.';
         }
 
-        if (this.sesVideoScannerService.loggedIn) {
+        if (!this.sesVideoScannerService.loggedIn) {
             return 'Please log in to use the SES Video Scanner';
         }
 
