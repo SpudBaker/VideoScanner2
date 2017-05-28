@@ -72,6 +72,7 @@ export class DoScanComponent implements AfterViewChecked {
     }
 
     getFiles() {
+        console.log('count of videos: ' + this.sesVideoScannerService.sesVideos.length);
         return this.sesVideoScannerService.sesVideos;
     }
 

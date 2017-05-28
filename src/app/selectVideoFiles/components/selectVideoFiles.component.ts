@@ -18,20 +18,16 @@ export class SelectVideoFilesComponent {
     @ViewChild('videoNode') videoNode: ElementRef; // hidden from display, load videos to get at meta data 
     @ViewChild('inputPassword') inputPassword: ElementRef;
     errorDisplayText: string;
-    private _videoLoading: boolean;
+    videoLoadStatusText: string;
+    private _videoLoading: string;
     private _fileNumber: number = 0;
     private _fileURL: any;
     private _fileName: string;
     private _videoFiles: File[] = [];
+    private finishedLoading: boolean = false;
 
     constructor(private sesVideoScannerService: SESVideoScannerService, private router: Router, private http: Http, private jsonp: Jsonp) {
         sesVideoScannerService.checkLastLogIn();
-    }
-
-    // Angular2 is apparently unable to iterate an array of a larger data structure 
-    // and this is the fix. Bizzarely it affects IE11 but not Chrome.  
-    hack(val) {
-        return Array.from(val);
     }
 
     getDisplayText() {
@@ -52,6 +48,7 @@ export class SelectVideoFilesComponent {
     }
 
     clickInputFileControl() {
+        this.finishedLoading = false;
         this.fileInput.click();
     }
 
@@ -81,7 +78,7 @@ export class SelectVideoFilesComponent {
                 }
                 break;
             case 'continue':
-                if (this.filesLoaded() && this.sesVideoScannerService.loggedIn) {
+                if (this.filesLoaded() && this.sesVideoScannerService.loggedIn && this.finishedLoading) {
                     rv = true;
                 } else {
                     rv = false;
@@ -141,22 +138,26 @@ export class SelectVideoFilesComponent {
     }
 
     loadVideos() {
-        if (this._videoFiles.length < this._fileNumber + 1) { return; }
+        if (this._videoFiles.length < this._fileNumber + 1) {
+            this.finishedLoading = true;
+            return;
+        }
         let file = this._videoFiles[this._fileNumber];
         this._fileURL = URL.createObjectURL(file);
         this._fileName = file.name;
-        this.videoNode.nativeElement.src = this._fileURL;
-        this._videoLoading = true;
+        this.videoLoadStatusText = 'loading videos please be patient (video ' + this._fileName + ')';
+        this._videoLoading = this._fileName;
+        this.videoNode.nativeElement.src = this._fileURL;    
     }
 
     videoLoaded() {
-        if (this._videoLoading === true) {
+        if (this._videoLoading === this._fileName) {
             let sesVideo = new SESVideo;
             sesVideo.duration = this.videoNode.nativeElement.duration;
             sesVideo.fileURL = this._fileURL;
             sesVideo.fileName = this._fileName;
             this.sesVideoScannerService.sesVideos.push(sesVideo);
-            this._videoLoading = false;
+            this._videoLoading = '';
             this._fileNumber++;
             this.loadVideos();
         }

@@ -13,10 +13,11 @@
                 </div>
                 <div *ngIf="getButtonState('browseforfiles')"><button onClick="document.getElementById('fileInputLocal').click()">Browse for files</button></div>
                 <div *ngIf="getButtonState('continue')"><button (click)="nextStep()">Continue</button><br /><br /></div>
+                <div *ngIf="!finishedLoading">  {{videoLoadStatusText}}<br /><br /></div>
                 <div *ngIf="getButtonState('cancel')"><button onclick="location.reload()">Cancel</button><br /><br /><br /><br /></div>
                 <div *ngIf="filesLoaded()">
                     <table>
-                        <tr *ngFor="let item of hack(getFiles())">
+                        <tr *ngFor="let item of getFiles()">
                             <td><strong>{{ item?.name }}</strong></td>
                         </tr>
                     </table>
