@@ -190,6 +190,9 @@ export class DoScanComponent implements AfterViewChecked {
                 this.scanCompleted();
             }
         }
+        if (this.showCompareImages === true) {
+            clearInterval(this._runningIntervalID);
+        }
         this._doingIteration = false;
     }
 
