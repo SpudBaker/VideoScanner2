@@ -23,6 +23,9 @@ export class DoScanComponent implements AfterViewChecked {
     scanAreaDisplayLeft: number;
     scanAreaDisplayWidth: number;
     scanAreaDisplayHeight: number;
+    percentageMovementImageCurrent: string;
+    percentageMovementImageCurrentMinusOne: string;
+    percentageMovementImageCurrentMinusTwo: string;
     @ViewChild('videoNode') videoNode: ElementRef;
     @ViewChild('canvas1') canvas1: ElementRef;
     @ViewChild('canvas2') canvas2: ElementRef;
@@ -97,11 +100,6 @@ export class DoScanComponent implements AfterViewChecked {
             this._imgImageArray[0] = this.imgImageCurrent.nativeElement;
             this._imgImageArray[1] = this.imgImageCurrentMinusOne.nativeElement;
             this._imgImageArray[2] = this.imgImageCurrentMinusTwo.nativeElement;
-            if (!this.showCompareImages) {
-                this._imgImageArray[0].hidden = true;
-                this._imgImageArray[1].hidden = true;
-                this._imgImageArray[2].hidden = true;
-            }
             this._imageArray = new Array();
             this.loadVideo();
             this._sesVideoLoaded = true;
@@ -156,11 +154,11 @@ export class DoScanComponent implements AfterViewChecked {
         }
         this.captureImage();
         if (this._captureIteration > 0) {
-            this.compareImage(0, 1);
+            this.percentageMovementImageCurrent = this.compareImage(0, 1).toString();
         }
         if (this._captureIteration > 1) {
-            this.compareImage(1, 2);
-            this.compareImage(2, 0);
+            this.percentageMovementImageCurrentMinusOne = this.compareImage(1, 2).toString();
+            this.percentageMovementImageCurrentMinusTwo = this.compareImage(2, 0).toString();
         }
         if (this._movementDetectedThisIteration === true) {
             if (this._captureIteration - this._lastIterationMovementDetected > this.sesVideoScannerService.minIntervalBetweenIncidents) {
@@ -231,9 +229,10 @@ export class DoScanComponent implements AfterViewChecked {
         }
         return matches;
     }
-    compareImage = function (imageIndex: number, imageIndex2: number) {
+    compareImage(imageIndex: number, imageIndex2: number): number {
         let noMovementCount = 0;
         let movementCount = 0;
+        let percentageMovement = 0;
 
         for (let y = 0; y < this.sesVideoScannerService.getScanAreaActualHeight(); y = y + 5) {
             for (let x = 0; x < this.sesVideoScannerService.getScanAreaActualWidth(); x = x + 5) {
@@ -250,9 +249,11 @@ export class DoScanComponent implements AfterViewChecked {
                 }
             }
         }
-        if (100 * (movementCount / (noMovementCount + movementCount)) < this.sesVideoScannerService.getPercentageArea()) {
+        percentageMovement = 100 * (movementCount / (noMovementCount + movementCount));
+        if (percentageMovement < this.sesVideoScannerService.getPercentageArea()) {
             this._movementDetectedThisIteration = false;
         }
+        return percentageMovement;
     };
 
     setCompareTopLeft(iArray: any[], x: number, y: number) {

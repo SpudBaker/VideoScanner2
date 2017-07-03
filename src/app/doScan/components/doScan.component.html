@@ -21,9 +21,11 @@
             <canvas hidden #canvas2></canvas>
             <canvas hidden #canvas3></canvas>
             <canvas hidden #canvasTime></canvas><br/>
-            <img #imgImageCurrent /><br/>
-            <img #imgImageCurrentMinusOne/><br/>
-            <img #imgCurrentMinusTwo />
+            <div [hidden]="!showCompareImages || showResultsButton">
+                <img #imgImageCurrent /><br />%age Movement: &nbsp;{{percentageMovementImageCurrent}}<br />
+                <img #imgImageCurrentMinusOne /><br />%age Movement: &nbsp;{{percentageMovementImageCurrentMinusOne}}<br />
+                <img #imgCurrentMinusTwo /><br />%age Movement: &nbsp;{{percentageMovementImageCurrentMinusTwo}}
+            </div>
         </div>
         <div class="rightColumn">
             <div style.top="{{videoDisplayTop}}px" style.left="{{videoDisplayLeft}}px" class="videoDiv">
