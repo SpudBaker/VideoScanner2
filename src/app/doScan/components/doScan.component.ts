@@ -158,7 +158,7 @@ export class DoScanComponent implements AfterViewChecked {
         }
         if (this._captureIteration > 1) {
             this.percentageMovementImageCurrentMinusOne = this.compareImage(1, 2).toString();
-            this.percentageMovementImageCurrentMinusTwo = this.compareImage(2, 0).toString();
+            //this.percentageMovementImageCurrentMinusTwo = this.compareImage(2, 0).toString();
         }
         if (this._movementDetectedThisIteration === true) {
             if (this._captureIteration - this._lastIterationMovementDetected > this.sesVideoScannerService.minIntervalBetweenIncidents) {
