@@ -18,7 +18,6 @@ export class SESVideoScannerService {
     minIntervalBetweenIncidents: number; // Settings page
     scanIterationTimer: number; // Settings page
     showCompareImages: boolean; // Settings page
-    percentageArea: number; // Settings page
     scanIncrement: number;
     playSpeedFactor: number; // Settings page
     loggedIn: Boolean = false;
@@ -41,12 +40,6 @@ export class SESVideoScannerService {
             this.playSpeedFactor = 5;
         } else {
             this.playSpeedFactor = parseInt(localStorage.getItem('playSpeedFactor'), 10);
-        }
-
-        if (localStorage.getItem('percentageArea') === null) {
-            this.percentageArea = 2;
-        } else {
-            this.percentageArea = parseInt(localStorage.getItem('percentageArea'), 10);
         }
 
         if (localStorage.getItem('showCompareImages') === null) {
@@ -80,10 +73,6 @@ export class SESVideoScannerService {
         return this.scanAreaDisplayHeight / this.getDisplayFactor();
     }
 
-    getPercentageArea() {
-        return this.percentageArea;
-    }
-
     getAllIncidents() {
         let ia = new Array();
         for (let vid of this.sesVideos) {
@@ -112,11 +101,6 @@ export class SESVideoScannerService {
     setShowCompareImages(value: boolean) {
         this.showCompareImages = value;
         localStorage.setItem('showCompareImages', value.toString());
-    }
-
-    setPercentageArea(value: number) {
-        this.percentageArea = value;
-        localStorage.setItem('percentageArea', value.toString());
     }
 
     getLogInStatusText() {
