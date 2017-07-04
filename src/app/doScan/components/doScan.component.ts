@@ -158,7 +158,7 @@ export class DoScanComponent implements AfterViewChecked {
         }
         if (this._captureIteration > 1) {
             this.percentageMovementImageCurrentMinusOne = this.compareImage(1, 2).toString();
-            //this.percentageMovementImageCurrentMinusTwo = this.compareImage(2, 0).toString();
+            this.percentageMovementImageCurrentMinusTwo = this.compareImage(2, 0).toString();
         }
         if (this._movementDetectedThisIteration === true) {
             if (this._captureIteration - this._lastIterationMovementDetected > this.sesVideoScannerService.minIntervalBetweenIncidents) {
@@ -222,7 +222,7 @@ export class DoScanComponent implements AfterViewChecked {
             let t2 = Math.round(p2[i] / 10) * 10;
 
             if (t1 !== t2) {
-                if ((t1 + 60) < t2 || (t1 - 60) > t2) {
+                if ((t1 + 50) < t2 || (t1 - 50) > t2) {
                     matches = false;
                 }
             }
@@ -250,7 +250,7 @@ export class DoScanComponent implements AfterViewChecked {
             }
         }
         percentageMovement = 100 * (movementCount / (noMovementCount + movementCount));
-        if (percentageMovement < this.sesVideoScannerService.getPercentageArea()) {
+        if (percentageMovement < 0.25) {
             this._movementDetectedThisIteration = false;
         }
         return percentageMovement;
