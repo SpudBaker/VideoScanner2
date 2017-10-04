@@ -21,7 +21,7 @@ export class SESVideoScannerService {
     scanIncrement: number;
     playSpeedFactor: number; // Settings page
     loggedIn: Boolean = false;
-    browserCompatable: boolean = true; // must be Chrome - checked in header component.
+    browserCompatable = true; // must be Chrome - checked in header component.
 
     constructor() {
         if (localStorage.getItem('minIntervalBetweenIncidents') === null) {
@@ -74,9 +74,9 @@ export class SESVideoScannerService {
     }
 
     getAllIncidents() {
-        let ia = new Array();
-        for (let vid of this.sesVideos) {
-            for (let inc of vid.incidents) {
+        const ia = new Array();
+        for (const vid of this.sesVideos) {
+            for (const inc of vid.incidents) {
                 ia.push(inc);
             }
         }
@@ -113,15 +113,15 @@ export class SESVideoScannerService {
 
     logIn() {
         this.loggedIn = true;
-        let d = new Date();
-        let s = (((d.getDay() + 3) * (d.getMonth() + 4) * (d.getFullYear()) + 5) - 666 ).toString();
+        const d = new Date();
+        const s = (((d.getDay() + 3) * (d.getMonth() + 4) * (d.getFullYear()) + 5) - 666 ).toString();
         localStorage.setItem('login', s);
     }
 
     checkLastLogIn() {
-        let s = localStorage.getItem('login');
+        const s = localStorage.getItem('login');
         let n = parseInt(s, 10);
-        let d = new Date();
+        const d = new Date();
         n = n + 666;
         if (n === (d.getDay() + 3) * (d.getMonth() + 4) * (d.getFullYear()) + 5) {
             // logged in today

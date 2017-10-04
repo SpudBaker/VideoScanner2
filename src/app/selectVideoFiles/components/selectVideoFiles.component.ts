@@ -15,16 +15,16 @@ import {SESVideo } from '../../model/SESVideo';
 
 export class SelectVideoFilesComponent {
     @ViewChild('fileInput') fileInput: any;
-    @ViewChild('videoNode') videoNode: ElementRef; // hidden from display, load videos to get at meta data 
+    @ViewChild('videoNode') videoNode: ElementRef; // hidden from display, load videos to get at meta data
     @ViewChild('inputPassword') inputPassword: ElementRef;
     errorDisplayText: string;
     videoLoadStatusText: string;
     private _videoLoading: string;
-    private _fileNumber: number = 0;
+    private _fileNumber = 0;
     private _fileURL: any;
     private _fileName: string;
     private _videoFiles: File[] = [];
-    private finishedLoading: boolean = false;
+    private finishedLoading = false;
 
     constructor(private sesVideoScannerService: SESVideoScannerService, private router: Router, private http: Http, private jsonp: Jsonp) {
         sesVideoScannerService.checkLastLogIn();
@@ -53,7 +53,7 @@ export class SelectVideoFilesComponent {
     }
 
     onFileInputChange() {
-        let fi = this.fileInput.nativeElement;
+        const fi = this.fileInput.nativeElement;
         this._videoFiles = fi.files;
         this.loadVideos();
     }
@@ -108,8 +108,8 @@ export class SelectVideoFilesComponent {
     }
 
     logIn() {
-        let lURL = 'https://script.google.com/macros/s/AKfycbwKQQIa2brENe4j5tHIyee4IA9IChHqzP9znDJuGg7I6OHLDCE/exec';
-        let params: URLSearchParams = new URLSearchParams();
+        const lURL = 'https://script.google.com/macros/s/AKfycbwKQQIa2brENe4j5tHIyee4IA9IChHqzP9znDJuGg7I6OHLDCE/exec';
+        const params: URLSearchParams = new URLSearchParams();
         params.set('login', this.inputPassword.nativeElement.value);
         params.set('prefix', 'JSONP_CALLBACK');
         this.jsonp.request(lURL, { search: params, method: 'Get' }).toPromise().
@@ -123,7 +123,7 @@ export class SelectVideoFilesComponent {
     }
 
     checkLoginResponse(res: Response) {
-        let s = res.json().authorized;
+        const s = res.json().authorized;
         if (s === 'true') {
             this.sesVideoScannerService.logIn();
 
@@ -142,17 +142,17 @@ export class SelectVideoFilesComponent {
             this.finishedLoading = true;
             return;
         }
-        let file = this._videoFiles[this._fileNumber];
+        const file = this._videoFiles[this._fileNumber];
         this._fileURL = URL.createObjectURL(file);
         this._fileName = file.name;
         this.videoLoadStatusText = 'loading videos please be patient (video ' + this._fileName + ')';
         this._videoLoading = this._fileName;
-        this.videoNode.nativeElement.src = this._fileURL;    
+        this.videoNode.nativeElement.src = this._fileURL;
     }
 
     videoLoaded() {
         if (this._videoLoading === this._fileName) {
-            let sesVideo = new SESVideo;
+            const sesVideo = new SESVideo;
             sesVideo.duration = this.videoNode.nativeElement.duration;
             sesVideo.fileURL = this._fileURL;
             sesVideo.fileName = this._fileName;

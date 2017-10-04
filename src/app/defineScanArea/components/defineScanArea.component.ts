@@ -34,7 +34,7 @@ export class DefineScanAreaComponent implements OnInit {
         this.scanAreaDisplayLeft = sesVideoScannerService.scanAreaDisplayLeft;
         this.scanAreaDisplayWidth = sesVideoScannerService.scanAreaDisplayWidth;
         this.scanAreaDisplayHeight = sesVideoScannerService.scanAreaDisplayHeight;
-        let l = localStorage.getItem('scanIncrement');
+        const l = localStorage.getItem('scanIncrement');
         if (l === null) {
             this.sesVideoScannerService.scanIncrement = 2;
         } else {

@@ -107,7 +107,7 @@ export class DoScanComponent implements AfterViewChecked {
     }
 
     loadVideo(): boolean {
-        for (let vid of this.sesVideoScannerService.sesVideos) {
+        for (const vid of this.sesVideoScannerService.sesVideos) {
             if (vid.scanned === false) {
                 this._loadingVideo = true;
                 this.videoNode.nativeElement.src = vid.fileURL;
@@ -163,7 +163,7 @@ export class DoScanComponent implements AfterViewChecked {
         if (this._movementDetectedThisIteration === true) {
             if (this._captureIteration - this._lastIterationMovementDetected > this.sesVideoScannerService.minIntervalBetweenIncidents) {
                 this._lastIterationMovementDetected = this._captureIteration;
-                let i = new SESIncident();
+                const i = new SESIncident();
                 i.time = this.videoNode.nativeElement.currentTime;
                 i.image = this._imageArray[0];
                 i.imagePrev1 = this._imageArray[1];
@@ -218,8 +218,8 @@ export class DoScanComponent implements AfterViewChecked {
     comparePixel(p1: any, p2: any) {
         let matches = true;
         for (let i = 0; i < p1.length; i++) {
-            let t1 = Math.round(p1[i] / 10) * 10;
-            let t2 = Math.round(p2[i] / 10) * 10;
+            const t1 = Math.round(p1[i] / 10) * 10;
+            const t2 = Math.round(p2[i] / 10) * 10;
 
             if (t1 !== t2) {
                 if ((t1 + 50) < t2 || (t1 - 50) > t2) {
@@ -236,11 +236,11 @@ export class DoScanComponent implements AfterViewChecked {
 
         for (let y = 0; y < this.sesVideoScannerService.getScanAreaActualHeight(); y = y + 5) {
             for (let x = 0; x < this.sesVideoScannerService.getScanAreaActualWidth(); x = x + 5) {
-                let pixel1 = this._ctxArray[imageIndex].getImageData(x, y, 1, 1);
-                let pixel1Data = pixel1.data;
+                const pixel1 = this._ctxArray[imageIndex].getImageData(x, y, 1, 1);
+                const pixel1Data = pixel1.data;
 
-                let pixel2 = this._ctxArray[imageIndex2].getImageData(x, y, 1, 1);
-                let pixel2Data = pixel2.data;
+                const pixel2 = this._ctxArray[imageIndex2].getImageData(x, y, 1, 1);
+                const pixel2Data = pixel2.data;
 
                 if (this.comparePixel(pixel1Data, pixel2Data) === false) {
                     movementCount++;

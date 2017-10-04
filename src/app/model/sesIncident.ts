@@ -5,7 +5,7 @@
     imagePrev2: any; // stores the scan area image from two iterations ago
     imageTime: any;
     videoFileName: string; // stores the bottom left section which contains the time on Chris's camera
-    displayState: string = 'inactive';
+    displayState = 'inactive';
 
     getMinutes() {
         return Math.floor(parseInt(this.time, 10) / 60);

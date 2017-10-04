@@ -21,7 +21,7 @@ export class DefineVideoSizeAndStartPointComponent implements AfterViewChecked, 
     @ViewChild('videoNode') videoNode: ElementRef;
     @ViewChild('canvasNode') canvasNode: ElementRef;
     @ViewChild('inputSlideVideoSize') inputSlideVideoSize: ElementRef;
-    sesVideoLoaded: boolean = false;
+    sesVideoLoaded = false;
 
     constructor(private sesVideoScannerService: SESVideoScannerService, private router: Router) {
         this.videoDisplayWidth = sesVideoScannerService.videoDisplayWidth;
@@ -46,7 +46,7 @@ export class DefineVideoSizeAndStartPointComponent implements AfterViewChecked, 
     }
 
     ngOnInit() {
-        let l = localStorage.getItem('videoDisplayWidth');
+        const l = localStorage.getItem('videoDisplayWidth');
         if (l === null) {
             this.videoDisplayWidth = 600;
         } else {
@@ -86,7 +86,7 @@ export class DefineVideoSizeAndStartPointComponent implements AfterViewChecked, 
     }
 
     saveVideoImage() {
-        let context = this.canvasNode.nativeElement.getContext('2d');
+        const context = this.canvasNode.nativeElement.getContext('2d');
         context.drawImage(this.videoNode.nativeElement, 0, 0, this.videoDisplayWidth, this.videoDisplayHeight);
         this.sesVideoScannerService.sesVideos[0].startPositionImage = this.canvasNode.nativeElement.toDataURL('image/png');
         this.sesVideoScannerService.sesVideos[0].startPosition = this.videoNode.nativeElement.currentTime;
