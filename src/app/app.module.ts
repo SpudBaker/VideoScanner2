@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppComponent} from './app.component';
-import { RouterModule } from '@angular/router';
-import { HttpModule, JsonpModule } from '@angular/http';
+import {RouterModule } from '@angular/router';
+import {HttpModule, JsonpModule } from '@angular/http';
 import {SelectVideoFilesComponent} from './selectVideoFiles/components/selectVideoFiles.component';
 import {DefineVideoSizeAndStartPointComponent} from './defineVideoSizeAndStartPoint/components/defineVideoSizeAndStartPoint.component';
 import {DefineScanAreaComponent} from './defineScanArea/components/defineScanArea.component';
@@ -23,11 +23,11 @@ import {SettingsFormComponent} from './settings/components/settingsForm.componen
         JsonpModule,
         RouterModule.forRoot([
             { path: '', component: SelectVideoFilesComponent },
-            { path: 'my-define-video-size-and-start-point', component: DefineVideoSizeAndStartPointComponent },
-            { path: 'my-define-scan-area', component: DefineScanAreaComponent },
-            { path: 'my-do-scan', component: DoScanComponent },
-            { path: 'my-show-results', component: ShowResultsComponent },
-            { path: 'my-settings', component: SettingsComponent }
+            { path: 'app-define-video-size-and-start-point', component: DefineVideoSizeAndStartPointComponent },
+            { path: 'app-define-scan-area', component: DefineScanAreaComponent },
+            { path: 'app-do-scan', component: DoScanComponent },
+            { path: 'app-show-results', component: ShowResultsComponent },
+            { path: 'app-settings', component: SettingsComponent }
         ])
     ],
     declarations: [

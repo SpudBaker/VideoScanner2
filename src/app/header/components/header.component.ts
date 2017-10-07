@@ -4,7 +4,7 @@ import 'styles.css';
 import {SESVideoScannerService} from '../../SESVideoScanner.service';
 
 @Component({
-    selector: 'my-header',
+    selector: 'app-header',
     templateUrl: 'header.component.html'
 })
 
@@ -19,7 +19,7 @@ export class HeaderComponent {
         window.location.reload();
     }
     clickSettings() {
-        this.router.navigate(['/my-settings']);
+        this.router.navigate(['/app-settings']);
     }
 
     getBrowserCompatability() {

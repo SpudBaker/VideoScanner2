@@ -9,7 +9,7 @@ import {SESVideo } from '../../model/SESVideo';
 
 
 @Component({
-    selector: 'my-select-video-files',
+    selector: 'app-select-video-files',
     templateUrl: 'selectVideoFiles.component.html',
 })
 
@@ -104,7 +104,7 @@ export class SelectVideoFilesComponent {
     }
 
     nextStep() {
-        this.router.navigate(['/my-define-video-size-and-start-point']);
+        this.router.navigate(['/app-define-video-size-and-start-point']);
     }
 
     logIn() {

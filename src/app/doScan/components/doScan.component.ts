@@ -6,7 +6,7 @@ import {SESVideo} from '../../../../src/app/model/SESVideo';
 import {SESIncident} from '../../model/SESIncident';
 
 @Component({
-    selector: 'my-do-scan',
+    selector: 'app-do-scan',
     templateUrl: 'doScan.component.html'
 })
 
@@ -280,7 +280,7 @@ export class DoScanComponent implements AfterViewChecked {
     }
 
     nextStep() {
-        this.router.navigate(['/my-show-results']);
+        this.router.navigate(['/app-show-results']);
     }
 
 }

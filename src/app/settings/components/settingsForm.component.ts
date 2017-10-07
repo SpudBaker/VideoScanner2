@@ -4,7 +4,7 @@ import { SESVideoScannerService } from '../../SESVideoScanner.service';
 import {Router} from '@angular/router';
 
 @Component({
-    selector: 'my-settings-form',
+    selector: 'app-settings-form',
     templateUrl: 'settingsForm.component.html'
 })
 

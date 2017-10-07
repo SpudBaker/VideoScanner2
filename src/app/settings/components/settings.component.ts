@@ -4,7 +4,7 @@ import 'styles.css';
 import {SESVideoScannerService} from '../../SESVideoScanner.service';
 
 @Component({
-    selector: 'my-settings',
+    selector: 'app-settings',
     templateUrl: 'settings.component.html',
 })
 

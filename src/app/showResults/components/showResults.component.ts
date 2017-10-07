@@ -6,7 +6,7 @@ import {SESVideo } from '../../model/SESVideo';
 
 
 @Component({
-    selector: 'my-show-results',
+    selector: 'app-show-results',
     templateUrl: 'showResults.component.html',
     animations: [
         trigger('selectedIncident', [

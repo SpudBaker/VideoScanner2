@@ -5,7 +5,7 @@ import {SESVideoScannerService} from '../../SESVideoScanner.service';
 
 
 @Component({
-    selector: 'my-define-video-size-and-start-point',
+    selector: 'app-define-video-size-and-start-point',
     templateUrl: 'defineVideoSizeAndStartPoint.component.html'
 })
 
@@ -82,7 +82,7 @@ export class DefineVideoSizeAndStartPointComponent implements AfterViewChecked, 
         this.sesVideoScannerService.scanAreaDisplayLeft = this.scanAreaDisplayLeft;
         this.sesVideoScannerService.scanAreaDisplayWidth = this.scanAreaDisplayWidth;
         this.sesVideoScannerService.scanAreaDisplayHeight = this.scanAreaDisplayHeight;
-        this.router.navigate(['/my-define-scan-area']);
+        this.router.navigate(['/app-define-scan-area']);
     }
 
     saveVideoImage() {

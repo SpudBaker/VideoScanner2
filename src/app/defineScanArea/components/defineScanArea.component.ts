@@ -5,7 +5,7 @@ import {SESVideoScannerService} from '../../SESVideoScanner.service';
 
 
 @Component({
-    selector: 'my-define-scan-area',
+    selector: 'app-define-scan-area',
     templateUrl: 'defineScanArea.component.html'
 })
 
@@ -113,7 +113,7 @@ export class DefineScanAreaComponent implements OnInit {
         this.sesVideoScannerService.scanAreaDisplayLeft = this.scanAreaDisplayLeft;
         this.sesVideoScannerService.scanAreaDisplayWidth = this.scanAreaDisplayWidth + 10; // to allow for border
         this.sesVideoScannerService.scanAreaDisplayHeight = this.scanAreaDisplayHeight + 10; // to allow for border
-        this.router.navigate(['/my-do-scan']);
+        this.router.navigate(['/app-do-scan']);
     }
 
     positionResizeHandle() {
