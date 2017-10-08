@@ -1,6 +1,6 @@
 # VideoScanner2
 
-This project was generated initially with Angular 2 from a github scaffold and the ported to a Angular cli structure [Angular CLI](https://github.com/angular/angular-cli) version 1.0.1.
+This project was generated initially with Angular 2 from a github scaffold and the ported to a Angular 4 cli structure [Angular CLI](https://github.com/angular/angular-cli) version 1.0.1.
 
 Angular components were hand crafted.
 
