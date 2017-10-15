@@ -1,5 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
-import { SESVideo } from './model/SESVideo';
+import { SESVideo } from './model/sesVideo';
+import { SESEmployee } from './model/sesEmployee';
+import {Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class SESVideoScannerService {
@@ -21,9 +26,10 @@ export class SESVideoScannerService {
     scanIncrement: number;
     playSpeedFactor: number; // Settings page
     loggedIn: Boolean = false;
+    sesEmployee: SESEmployee;
     browserCompatable = true; // must be Chrome - checked in header component.
 
-    constructor() {
+    constructor(private http: Http) {
         if (localStorage.getItem('minIntervalBetweenIncidents') === null) {
             this.minIntervalBetweenIncidents = 5;
         } else {
@@ -111,13 +117,56 @@ export class SESVideoScannerService {
         }
     }
 
+    logIn (password: string) {
+        this.callLogInService(password)
+        .subscribe(e => this.persistUserDetails(e));
+    }
+
+    persistUserDetails(e: SESEmployee){
+        this.loggedIn = true;
+        this.sesEmployee = e;
+        console.log(this.sesEmployee);
+        localStorage.setItem('keyString', e.keyString);
+    }
+
+    callLogInService(password: string): Observable<SESEmployee> {
+        const baseUrl = 'http://www.video-scanner.com';
+
+        console.log(baseUrl + '/auth/login/' + password);
+
+        const employee = this.http
+            .get(baseUrl + '/auth/login/' + password)
+            .map(res => this.toSESEmployee(res));
+            return employee;
+    }
+
+    toSESEmployee(r: any): SESEmployee {
+        const j = r.json();
+        const sesEmployee = <SESEmployee>({
+            employee_pk: j.employee_pk,
+            first_name: j.first_name,
+            last_name: j.last_name,
+            organisation_pk: j.organisation_pk,
+            organisation_name: j.organisation_name,
+            keyString: j.keyString
+        });
+        console.log(sesEmployee);
+        return sesEmployee;
+    }
+
+    /*
     logIn() {
         this.loggedIn = true;
         const d = new Date();
         const s = (((d.getDay() + 3) * (d.getMonth() + 4) * (d.getFullYear()) + 5) - 666 ).toString();
         localStorage.setItem('login', s);
     }
+    */
 
+    checkLastLogIn() {
+    }
+
+    /*
     checkLastLogIn() {
         const s = localStorage.getItem('login');
         let n = parseInt(s, 10);
@@ -128,5 +177,5 @@ export class SESVideoScannerService {
             this.loggedIn = true;
         }
     }
-
+    */
 }

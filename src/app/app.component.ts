@@ -4,7 +4,7 @@ import {SESVideoScannerService} from './SESVideoScanner.service';
 import {GeneralUtilitiesService} from './GeneralUtilities.service';
 
 @Component({
-    selector: 'app',
+    selector: 'app-component',
     templateUrl: './app.component.html',
     providers: [SESVideoScannerService, GeneralUtilitiesService]
 })

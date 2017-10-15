@@ -108,6 +108,10 @@ export class SelectVideoFilesComponent {
     }
 
     logIn() {
+        this.sesVideoScannerService.logIn(this.inputPassword.nativeElement.value);
+    }
+
+    /*logIn() {
         const lURL = 'https://script.google.com/macros/s/AKfycbwKQQIa2brENe4j5tHIyee4IA9IChHqzP9znDJuGg7I6OHLDCE/exec';
         const params: URLSearchParams = new URLSearchParams();
         params.set('login', this.inputPassword.nativeElement.value);
@@ -115,13 +119,14 @@ export class SelectVideoFilesComponent {
         this.jsonp.request(lURL, { search: params, method: 'Get' }).toPromise().
             then(Res => this.checkLoginResponse(Res)).catch(Res => this.handleHttpError(Res));
     }
+    */
 
     checkForLogInEnter(e) {
         if (e === 13) {
             this.logIn();
         }
     }
-
+    /*
     checkLoginResponse(res: Response) {
         const s = res.json().authorized;
         if (s === 'true') {
@@ -132,6 +137,7 @@ export class SelectVideoFilesComponent {
             this.errorDisplayText = 'Incorrect password - please try again';
         }
     }
+    */
 
     handleHttpError(error: Response | any) {
         this.errorDisplayText = 'Error attempting to access the login Service - please try again later';
