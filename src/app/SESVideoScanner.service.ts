@@ -4,6 +4,7 @@ import { SESEmployee } from './model/sesEmployee';
 import {Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 
 @Injectable()
@@ -25,7 +26,8 @@ export class SESVideoScannerService {
     showCompareImages: boolean; // Settings page
     scanIncrement: number;
     playSpeedFactor: number; // Settings page
-    loggedIn: Boolean = false;
+    loggedIn = false;
+    loggingIn = false;
     sesEmployee: SESEmployee;
     browserCompatable = true; // must be Chrome - checked in header component.
 
@@ -111,33 +113,50 @@ export class SESVideoScannerService {
 
     getLogInStatusText() {
         if (this.loggedIn === true) {
-            return 'SES User logged in';
+            return this.sesEmployee.first_name + ' ' + this.sesEmployee.last_name + ' / ' +
+                this.sesEmployee.organisation_name;
         } else {
             return '';
         }
     }
 
     logIn (password: string) {
-        this.callLogInService(password)
-        .subscribe(e => this.persistUserDetails(e));
+        if (!this.loggingIn){
+            this.loggingIn = true;
+            this.callLogInService(password)
+            .subscribe(emp => {
+                    this.sesEmployee = emp;
+                    this.persistUserDetails(emp);
+                },
+                err => {
+                    this.loggedIn = false;
+                    this.loggingIn = false;
+                }
+            );
+        }
     }
 
     persistUserDetails(e: SESEmployee){
         this.loggedIn = true;
         this.sesEmployee = e;
-        console.log(this.sesEmployee);
         localStorage.setItem('keyString', e.keyString);
+        this.loggingIn = false;
     }
 
-    callLogInService(password: string): Observable<SESEmployee> {
+    callLogInService(password: string): Observable<SESEmployee>{
         const baseUrl = 'http://www.video-scanner.com';
-
-        console.log(baseUrl + '/auth/login/' + password);
-
-        const employee = this.http
+        return this.http
             .get(baseUrl + '/auth/login/' + password)
-            .map(res => this.toSESEmployee(res));
-            return employee;
+            .map((res: Response) => {
+                return this.toSESEmployee(res);
+                })
+            . catch(e => {
+                if (e.status === 401) {
+                    return Observable.throw('Password not recognised');
+                } else {
+                    return Observable.throw('Unknown Error');
+                }
+            });
     }
 
     toSESEmployee(r: any): SESEmployee {
@@ -150,32 +169,9 @@ export class SESVideoScannerService {
             organisation_name: j.organisation_name,
             keyString: j.keyString
         });
-        console.log(sesEmployee);
         return sesEmployee;
     }
 
-    /*
-    logIn() {
-        this.loggedIn = true;
-        const d = new Date();
-        const s = (((d.getDay() + 3) * (d.getMonth() + 4) * (d.getFullYear()) + 5) - 666 ).toString();
-        localStorage.setItem('login', s);
-    }
-    */
-
     checkLastLogIn() {
     }
-
-    /*
-    checkLastLogIn() {
-        const s = localStorage.getItem('login');
-        let n = parseInt(s, 10);
-        const d = new Date();
-        n = n + 666;
-        if (n === (d.getDay() + 3) * (d.getMonth() + 4) * (d.getFullYear()) + 5) {
-            // logged in today
-            this.loggedIn = true;
-        }
-    }
-    */
 }
