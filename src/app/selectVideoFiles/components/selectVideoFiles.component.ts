@@ -25,9 +25,25 @@ export class SelectVideoFilesComponent {
     private _fileName: string;
     private _videoFiles: File[] = [];
     private finishedLoading = false;
+    private loggingIn = false; 
 
-    constructor(private sesVideoScannerService: SESVideoScannerService, private router: Router, private http: Http, private jsonp: Jsonp) {
-        sesVideoScannerService.checkLastLogIn();
+    constructor(private s: SESVideoScannerService, private router: Router, private http: Http) {
+        if (!s.sesEmployee) {
+            const key = localStorage.getItem('keyString');
+            s.checkLastLogIn(key)
+            .subscribe(emp => {
+                s.sesEmployee = emp;
+                s.persistUserDetails(emp);
+                s.loggedIn = true;
+                this.loggingIn = false;
+            },
+            err => {
+                s.loggedIn = false;
+                this.loggingIn = false;
+                this.errorDisplayText = err;
+            }
+        );
+        }
     }
 
     getDisplayText() {
@@ -35,7 +51,7 @@ export class SelectVideoFilesComponent {
             return 'This application is designed for the Chrome Browser only. Please change browser.';
         }
 
-        if (!this.sesVideoScannerService.loggedIn) {
+        if (!this.s.loggedIn) {
             return 'Please log in to use the SES Video Scanner';
         }
 
@@ -62,7 +78,7 @@ export class SelectVideoFilesComponent {
         let rv = false;
         switch (button) {
             case 'cancel':
-                if (this.filesLoaded() && this.sesVideoScannerService.loggedIn) {
+                if (this.filesLoaded() && this.s.loggedIn) {
                     rv = true;
                 } else {
                     rv = false;
@@ -71,21 +87,21 @@ export class SelectVideoFilesComponent {
             case 'browseforfiles':
                 if (this.filesLoaded()) {
                     rv = false;
-                } else if (this.sesVideoScannerService.loggedIn) {
+                } else if (this.s.loggedIn) {
                     rv = true;
                 } else {
                     rv = false;
                 }
                 break;
             case 'continue':
-                if (this.filesLoaded() && this.sesVideoScannerService.loggedIn && this.finishedLoading) {
+                if (this.filesLoaded() && this.s.loggedIn && this.finishedLoading) {
                     rv = true;
                 } else {
                     rv = false;
                 }
                 break;
             case 'login':
-                if (this.sesVideoScannerService.loggedIn) {
+                if (this.s.loggedIn) {
                     rv = false;
                 } else {
                     rv = true;
@@ -107,40 +123,31 @@ export class SelectVideoFilesComponent {
         this.router.navigate(['/app-define-video-size-and-start-point']);
     }
 
-    logIn() {
-        this.sesVideoScannerService.logIn(this.inputPassword.nativeElement.value);
+    logIn () {
+        const v = this.inputPassword.nativeElement.value;
+        const s = this.s;
+        if (!this.loggingIn && v){
+            this.loggingIn = true;
+            s.callLogInService(v)
+            .subscribe(emp => {
+                    s.sesEmployee = emp;
+                    s.persistUserDetails(emp);
+                    s.loggedIn = true;
+                    this.loggingIn = false;
+                },
+                err => {
+                    s.loggedIn = false;
+                    this.loggingIn = false;
+                    this.errorDisplayText = err;
+                }
+            );
+        }
     }
-
-    /*logIn() {
-        const lURL = 'https://script.google.com/macros/s/AKfycbwKQQIa2brENe4j5tHIyee4IA9IChHqzP9znDJuGg7I6OHLDCE/exec';
-        const params: URLSearchParams = new URLSearchParams();
-        params.set('login', this.inputPassword.nativeElement.value);
-        params.set('prefix', 'JSONP_CALLBACK');
-        this.jsonp.request(lURL, { search: params, method: 'Get' }).toPromise().
-            then(Res => this.checkLoginResponse(Res)).catch(Res => this.handleHttpError(Res));
-    }
-    */
 
     checkForLogInEnter(e) {
         if (e === 13) {
             this.logIn();
         }
-    }
-    /*
-    checkLoginResponse(res: Response) {
-        const s = res.json().authorized;
-        if (s === 'true') {
-            this.sesVideoScannerService.logIn();
-
-        } else {
-            this.sesVideoScannerService.loggedIn = false;
-            this.errorDisplayText = 'Incorrect password - please try again';
-        }
-    }
-    */
-
-    handleHttpError(error: Response | any) {
-        this.errorDisplayText = 'Error attempting to access the login Service - please try again later';
     }
 
     loadVideos() {
@@ -162,7 +169,7 @@ export class SelectVideoFilesComponent {
             sesVideo.duration = this.videoNode.nativeElement.duration;
             sesVideo.fileURL = this._fileURL;
             sesVideo.fileName = this._fileName;
-            this.sesVideoScannerService.sesVideos.push(sesVideo);
+            this.s.sesVideos.push(sesVideo);
             this._videoLoading = '';
             this._fileNumber++;
             this.loadVideos();
@@ -170,7 +177,7 @@ export class SelectVideoFilesComponent {
     }
 
     getBrowserCompatability() {
-        if (this.sesVideoScannerService.browserCompatable) {
+        if (this.s.browserCompatable) {
             return true;
         } else {
             return false;

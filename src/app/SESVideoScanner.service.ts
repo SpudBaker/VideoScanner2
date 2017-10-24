@@ -27,9 +27,9 @@ export class SESVideoScannerService {
     scanIncrement: number;
     playSpeedFactor: number; // Settings page
     loggedIn = false;
-    loggingIn = false;
     sesEmployee: SESEmployee;
     browserCompatable = true; // must be Chrome - checked in header component.
+    baseUrl = 'http://www.video-scanner.com';
 
     constructor(private http: Http) {
         if (localStorage.getItem('minIntervalBetweenIncidents') === null) {
@@ -120,41 +120,22 @@ export class SESVideoScannerService {
         }
     }
 
-    logIn (password: string) {
-        if (!this.loggingIn){
-            this.loggingIn = true;
-            this.callLogInService(password)
-            .subscribe(emp => {
-                    this.sesEmployee = emp;
-                    this.persistUserDetails(emp);
-                },
-                err => {
-                    this.loggedIn = false;
-                    this.loggingIn = false;
-                }
-            );
-        }
-    }
-
     persistUserDetails(e: SESEmployee){
-        this.loggedIn = true;
         this.sesEmployee = e;
         localStorage.setItem('keyString', e.keyString);
-        this.loggingIn = false;
     }
 
     callLogInService(password: string): Observable<SESEmployee>{
-        const baseUrl = 'http://www.video-scanner.com';
         return this.http
-            .get(baseUrl + '/auth/login/' + password)
+            .get(this.baseUrl + '/auth/login/' + password)
             .map((res: Response) => {
                 return this.toSESEmployee(res);
                 })
-            . catch(e => {
+            .catch(e => {
                 if (e.status === 401) {
                     return Observable.throw('Password not recognised');
                 } else {
-                    return Observable.throw('Unknown Error');
+                    return Observable.throw(e);
                 }
             });
     }
@@ -172,6 +153,18 @@ export class SESVideoScannerService {
         return sesEmployee;
     }
 
-    checkLastLogIn() {
+    checkLastLogIn(key: string): Observable<SESEmployee> {
+            return this.http
+            .get(this.baseUrl + '/auth/validate/' + key)
+            .map((res: Response) => {
+                return this.toSESEmployee(res);
+            })
+            .catch(e => {
+                if (e.status === 401) {
+                    return Observable.throw('');
+                } else {
+                    return Observable.throw(e);
+                }
+            })
     }
 }
