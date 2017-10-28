@@ -1,4 +1,10 @@
 /* Master Styles */
+@import '../node_modules/loaders.css/loaders.min.css';
+
+.loader .app-spinner {
+    background-color: #369;
+}
+
 h1 {
   color: #369; 
   font-family: Arial, Helvetica, sans-serif;   

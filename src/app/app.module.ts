@@ -12,6 +12,8 @@ import {ShowResultsComponent} from './showResults/components/showResults.compone
 import {HeaderComponent} from './header/components/header.component';
 import {SettingsComponent} from './settings/components/settings.component';
 import {SettingsFormComponent} from './settings/components/settingsForm.component';
+import {SpinnerComponent} from './spinner/spinner.component';
+import {LoadersCssModule} from 'angular2-loaders-css';
 
 
 @NgModule({
@@ -20,7 +22,7 @@ import {SettingsFormComponent} from './settings/components/settingsForm.componen
         FormsModule,
         ReactiveFormsModule,
         HttpModule,
-        JsonpModule,
+        LoadersCssModule,
         RouterModule.forRoot([
             { path: '', component: SelectVideoFilesComponent },
             { path: 'app-define-video-size-and-start-point', component: DefineVideoSizeAndStartPointComponent },
@@ -39,7 +41,8 @@ import {SettingsFormComponent} from './settings/components/settingsForm.componen
         ShowResultsComponent,
         HeaderComponent,
         SettingsComponent,
-        SettingsFormComponent
+        SettingsFormComponent,
+        SpinnerComponent
     ],
     bootstrap: [AppComponent]
 })
