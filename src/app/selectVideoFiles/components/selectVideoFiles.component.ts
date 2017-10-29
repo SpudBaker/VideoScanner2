@@ -30,6 +30,10 @@ export class SelectVideoFilesComponent {
     constructor(private s: SESVideoScannerService, private router: Router, private http: Http) {
         if (!s.sesEmployee) {
             const key = localStorage.getItem('keyString');
+            if (key === null){
+                return;
+            }
+            this.loggingIn = true;
             s.checkLastLogIn(key)
             .subscribe(emp => {
                 s.sesEmployee = emp;
@@ -68,6 +72,10 @@ export class SelectVideoFilesComponent {
         this.fileInput.click();
     }
 
+    getLoggingIn(): boolean {
+        return this.loggingIn;
+    }
+
     onFileInputChange() {
         const fi = this.fileInput.nativeElement;
         this._videoFiles = fi.files;
@@ -101,7 +109,7 @@ export class SelectVideoFilesComponent {
                 }
                 break;
             case 'login':
-                if (this.s.loggedIn) {
+                if (this.s.loggedIn || this.loggingIn) {
                     rv = false;
                 } else {
                     rv = true;
@@ -125,6 +133,10 @@ export class SelectVideoFilesComponent {
 
     logIn () {
         const v = this.inputPassword.nativeElement.value;
+        if (v === '') {
+            this.errorDisplayText = 'Please enter a password';
+            return;
+        }
         const s = this.s;
         if (!this.loggingIn && v){
             this.loggingIn = true;
