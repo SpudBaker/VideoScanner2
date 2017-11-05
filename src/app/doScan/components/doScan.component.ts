@@ -280,7 +280,26 @@ export class DoScanComponent implements AfterViewChecked {
     }
 
     nextStep() {
-        this.router.navigate(['/app-show-results']);
-    }
-
+            const s = this.sesVideoScannerService;
+            const objVidArray = [];
+            let json: string;
+            //{"videos":[{"video_name": "VID001", "employee_pk": 3, "incident_count": 5}
+            for (let i = 0; i < s.sesVideos.length; i++) {
+                const vid = s.sesVideos[i];
+                const objVid = {
+                    'video_name': vid.fileName,
+                    'employee_pk': s.sesEmployee.employee_pk,
+                    'incident_count': vid.getIncidentCount()
+                }
+                objVidArray[i] = objVid;
+            }
+            json = JSON.stringify({videos: objVidArray});
+            s.callVideoPutService(json)
+            .subscribe(() =>{
+                this.router.navigate(['/app-show-results']);
+                },
+                err =>{
+                    console.log(err);
+                });
+        }
 }

@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { SESVideo } from './model/sesVideo';
 import { SESEmployee } from './model/sesEmployee';
-import {Http, Response } from '@angular/http';
+import {Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -123,6 +123,20 @@ export class SESVideoScannerService {
     persistUserDetails(e: SESEmployee){
         this.sesEmployee = e;
         localStorage.setItem('keyString', e.keyString);
+    }
+
+    callVideoPutService(json: string): Observable<any>{
+        //PUT http://www.video-scanner.com/scan/videos/  
+        //-d '{"videos":[{"video_name": "VID001", "employee_pk": 3, "incident_count": 5}, 
+        //{"video_name": "VID002", "employee_pk": 3, "incident_count": 3}]}'
+        const headers = new Headers({ 'Content-Type': 'application/json', 'Accept': 'q=0.8;application/json;q=0.9' });
+        const options = new RequestOptions({ headers: headers });
+
+        return this.http
+            .put(this.baseUrl + '/scan/videos/', json, options)
+            .catch(e => {
+                return Observable.throw(e);
+            })
     }
 
     callLogInService(password: string): Observable<SESEmployee>{

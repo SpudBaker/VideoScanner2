@@ -1,6 +1,6 @@
 ﻿import {ElementRef, Component, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
-import {Http, Jsonp, URLSearchParams, Response} from '@angular/http';
+import {Http, URLSearchParams, Response} from '@angular/http';
 import 'rxjs/Rx';
 import 'styles.css';
 import {SESVideoScannerService} from '../../SESVideoScanner.service';
@@ -128,7 +128,7 @@ export class SelectVideoFilesComponent {
     }
 
     nextStep() {
-        this.router.navigate(['/app-define-video-size-and-start-point']);
+            this.router.navigate(['/app-define-video-size-and-start-point'])
     }
 
     logIn () {
